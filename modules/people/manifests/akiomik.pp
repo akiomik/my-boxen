@@ -59,6 +59,9 @@ class people::akiomik {
     'BetterTouchTool':
       source   => "http://www.boastr.de/BetterTouchTool.zip",
       provider => compressed_app;
+    'Yahoo!Messenger':
+      source   => "http://dl.msg.yahoo.co.jp/pgdownload/YahooMessengerJ_31.dmg",
+      provider => pkgdmg;
   }
 
   $home     = "/Users/${::luser}"
