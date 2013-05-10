@@ -70,7 +70,7 @@ class people::akiomik {
     source  => "akiomik/dotfiles",
     require => File[$src]
   }
-  exec { "sh ${dotfiles}/.configure":
+  exec { "sh ${dotfiles}/configure":
     cwd => $dotfiles,
     creates => [ "${home}/.zshrc", "${home}/.vimrc", "${home}/.gitconfig", "${home}/.tmux.conf" ],
     require => Repository[$dotfiles],
