@@ -8,7 +8,7 @@ class people::akiomik {
   include skype
   include cyberduck
   include chrome
-  include osx
+  #  include osx
 
   # install with homebrew
   package {
@@ -81,13 +81,13 @@ class people::akiomik {
   }
 
   # settings for zsh
-  file_line { 'add zsh to /etc/shells':
-    path    => '/etc/shells',
-    line    => "${boxen::config::homebrewdir}/bin/zsh",
-    require => Package['zsh'],
-    before  => Osx_chsh[$::luser];
-  }
-  osx_chsh { $::luser:
-    shell   => "${boxen::config::homebrewdir}/bin/zsh";
-  }
+  #  file_line { 'add zsh to /etc/shells':
+  #    path    => '/etc/shells',
+  #    line    => "${boxen::config::homebrewdir}/bin/zsh",
+  #    require => Package['zsh'],
+  #    before  => Osx_chsh[$::luser];
+  #  }
+  #  osx_chsh { $::luser:
+  #    shell   => "${boxen::config::homebrewdir}/bin/zsh";
+  #  }
 }
