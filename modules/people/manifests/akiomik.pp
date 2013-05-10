@@ -13,7 +13,6 @@ class people::akiomik {
   # install with homebrew
   package {
     [
-      'ack',
       'asciidoc',
       'autoconf',
       'automake',
