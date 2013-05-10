@@ -64,9 +64,11 @@ class people::akiomik {
       provider => pkgdmg;
   }
 
-  $home     = "/Users/${::luser}"
-  $src      = "${home}/src"
-  $dotfiles = "${src}/dotfiles"
+  $home      = "/Users/${::luser}"
+  $src       = "${home}/src"
+  $dotfiles  = "${src}/dotfiles"
+  $vim       = "${home}/.vim"
+  $neobundle = "${vim}/bundle"
 
   # settings for dotfiles
   repository { $dotfiles:
@@ -77,6 +79,15 @@ class people::akiomik {
     cwd => $dotfiles,
     creates => [ "${home}/.zshrc", "${home}/.vimrc", "${home}/.gitconfig", "${home}/.tmux.conf" ],
     require => Repository[$dotfiles],
+  }
+
+  # settings for dotfiles
+  file { $vim:
+    ensure => "directory",
+  }
+  repository { $neobundle:
+    source => "Shougo/neobundle.vim",
+    require => File[$vim]
   }
 
   # settings for zsh
