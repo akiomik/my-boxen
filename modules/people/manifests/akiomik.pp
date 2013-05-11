@@ -87,6 +87,8 @@ class people::akiomik {
   $neobundle   = "${vim}/bundle"
   $fontpatcher = "${neobundle}/vim-powerline/fontpatcher/fontpatcher"
   $inconsolata = "${neobundle}/vim-powerline/fontpatcher/Inconsolata.otf"
+  $wgetInconsolata = "wget http://levien.com/type/myfonts/Inconsolata.otf"
+  $vimPluginInstall = "yes | vim -c 'q'"
   file { $vim:
     ensure => "directory",
   }
@@ -94,18 +96,18 @@ class people::akiomik {
     source => "Shougo/neobundle.vim",
     require => File[$vim]
   }
-  exec { "yes | vim -c 'q'":
+  exec { $vimPluginInstall:
     creates => "${fontpatcher}",
     require => Repository[$neobundle],
   }
-  exec { "wget http://levien.com/type/myfonts/Inconsolata.otf":
+  exec { $wgetInconsolata:
     cwd => $fontpatcher,
     creates => "$inconsolata",
-    require => File[$fontpatcher],
+    require => Package['wget'],
   }
   exec { "fontforge -script ${fontpatcher} ${inconsolata}":
     cwd => $fontpatcher,
-    require => [ File["${fontpatcher}"], File["${inconsolata}"] ],
+    require => [ Exec[$vimPluginInstall], Exec[$wgetInconsolata], Package['fontforge'] ],
   }
 
   # settings for zsh
