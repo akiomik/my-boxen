@@ -66,11 +66,9 @@ class people::akiomik {
 
   $home      = "/Users/${::luser}"
   $src       = "${home}/src"
-  $dotfiles  = "${src}/dotfiles"
-  $vim       = "${home}/.vim"
-  $neobundle = "${vim}/bundle"
 
   # settings for dotfiles
+  $dotfiles  = "${src}/dotfiles"
   repository { $dotfiles:
     source  => "akiomik/dotfiles",
     require => File[$src]
@@ -81,13 +79,30 @@ class people::akiomik {
     require => Repository[$dotfiles],
   }
 
-  # settings for dotfiles
+  # settings for vim
+  $vim         = "${home}/.vim"
+  $neobundle   = "${vim}/bundle"
+  $fontpatcher = "${neobundle}/vim-powerline/fontpatcher/fontpatcher"
+  $inconsolata = "${neobundle}/vim-powerline/fontpatcher/Inconsolata.otf"
   file { $vim:
     ensure => "directory",
   }
   repository { $neobundle:
     source => "Shougo/neobundle.vim",
     require => File[$vim]
+  }
+  exec { "yes | vim -c 'q'":
+    creates => "${fontpatcher}",
+    require => Repository[$neobundle],
+  }
+  exec { "wget http://levien.com/type/myfonts/Inconsolata.otf"
+    cwd => $fontpatcher,
+    creates => "$inconsolata",
+    require => File[$fontpatcher],
+  }
+  exec { "fontforge -script ${fontpatcher} ${inconsolata}"
+    cwd => $fontpatcher,
+    require => [ File["${fontpatcher}"], File["${inconsolata}"] ],
   }
 
   # settings for zsh
