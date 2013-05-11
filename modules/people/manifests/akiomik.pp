@@ -62,6 +62,9 @@ class people::akiomik {
     'Yahoo!Messenger':
       source   => "http://dl.msg.yahoo.co.jp/pgdownload/YahooMessengerJ_31.dmg",
       provider => pkgdmg;
+    'GoogleJapaneseInput':
+      source => "http://dl.google.com/japanese-ime/latest/GoogleJapaneseInput.dmg",
+      provider => pkgdmg;
   }
 
   $home      = "/Users/${::luser}"
