@@ -98,12 +98,12 @@ class people::akiomik {
     creates => "${fontpatcher}",
     require => Repository[$neobundle],
   }
-  exec { "wget http://levien.com/type/myfonts/Inconsolata.otf"
+  exec { "wget http://levien.com/type/myfonts/Inconsolata.otf":
     cwd => $fontpatcher,
     creates => "$inconsolata",
     require => File[$fontpatcher],
   }
-  exec { "fontforge -script ${fontpatcher} ${inconsolata}"
+  exec { "fontforge -script ${fontpatcher} ${inconsolata}":
     cwd => $fontpatcher,
     require => [ File["${fontpatcher}"], File["${inconsolata}"] ],
   }
