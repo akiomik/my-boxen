@@ -111,13 +111,22 @@ class people::akiomik {
   }
 
   # settings for zsh
-   file_line { 'add zsh to /etc/shells':
-     path    => '/etc/shells',
-     line    => "${boxen::config::homebrewdir}/bin/zsh",
-     require => Package['zsh'],
-     before  => Osx_chsh[$::luser];
-   }
-   osx_chsh { $::luser:
-     shell   => "${boxen::config::homebrewdir}/bin/zsh";
-   }
+  $zshCompletions = "${home}/.zsh-completions"
+  file_line { 'add zsh to /etc/shells':
+    path    => '/etc/shells',
+    line    => "${boxen::config::homebrewdir}/bin/zsh",
+    require => Package['zsh'],
+    before  => Osx_chsh[$::luser];
+  }
+  osx_chsh { $::luser:
+    shell   => "${boxen::config::homebrewdir}/bin/zsh";
+  }
+  file { $zshCompletions:
+    ensure => "directory",
+    require => Package['zsh'],
+  }
+  repository { $zshCompletions:
+    source => "zsh-users/zsh-completions",
+    require => File[$zshCompletions],
+  }
 }
